@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forgotPassword Page</title>
+</head>
+<body>
+
+
+    <form action="/_2FA">
+        <h2>enter ur otp</h2>
+        <label for="otp">otp</label>
+        <input type="text" name="otp"  />
+        <div class="otp error"></div>
+        <button>Send</button>
+      </form>
+      
+    <script>
+        const form = document.querySelector('form');
+        const emailError = document.querySelector('.otp.error');
+        
+      
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+      
+          // reset errors
+          emailError.textContent = '';
+         
+      
+          // get values
+          const otp = form.otp.value;
+          
+      
+          try {
+            const res = await fetch('/_2FA', { 
+              method: 'POST', 
+              body: JSON.stringify({ otp }),
+              headers: {'Content-Type': 'application/json'}
+            });
+            const data = await res.json();
+            console.log(data);
+            location.assign('/about');
+            /*if (data.errors) {
+              //emailError.textContent = data.errors.email;
+              //passwordError.textContent = data.errors.password;
+            }
+            else {
+              location.assign('/my-blogs');
+            }*/
+      
+          }
+          catch (err) {
+            console.log(err);
+          }
+        });
+      </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elfeel | <%=title%></title>
+  <!--<link rel="stylesheet" href="/styles.css">-->
+</head>
+<body>
+  <h1>Home Page</h1>
+  <h2><a href="/logout">logout</a></h2>
+  <h2><a href="/signup">signup</a></h2>
+   <nav>
+     <a href="/">Blogs</a>
+     <a href="/about">about</a>
+     <a href="/blogs/create">New Blog</a>
+     <a href="/my-blogs">My Blogs</a>
+
+   </nav>
+  
+
+
+       <form action="/blogs/<%= blog.id %>/edit" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="<%= blog.title %>" required />
+    
+        <label for="snippet">Snippet:</label>
+        <input type="text" id="snippet" name="snippet" value="<%= blog.snippet %>" required />
+    
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" rows="5" required><%= blog.body %></textarea>
+    
+        <button type="submit">Update Blog</button>
+    </form>
+    <button><a class="delete" data-doc="<%=blog.id%>">Delete Blog</a></button>  
+   
+       <script>
+        const trashcan = document.querySelector('a.delete');
+
+        trashcan.addEventListener('click', (e) => {
+          const endpoint = `/blogs/${trashcan.dataset.doc}`;
+    
+          fetch(endpoint, {
+            method: 'DELETE',
+          })
+          .then(response => response.json())
+          .then(data => window.location.href = data.redirect)
+          .catch(err => console.log(err));
+        });
+        
+      </script> 
+</body>
+</html>
